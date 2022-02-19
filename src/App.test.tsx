@@ -1,9 +1,20 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen, waitFor } from "@testing-library/react";
+import fetchMock from "jest-fetch-mock";
+import React from "react";
+import App from "./App";
+import * as testJson from "./mocks/sampleDatas.json";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+beforeEach(() => {
+    fetchMock.resetMocks();
+});
+
+test("renders the app with loading test", async () => {
+    fetchMock.mockResponse(JSON.stringify((testJson as any).default));
+
+    render(<App />);
+
+    await waitFor(() => {
+        const loadingCicle = screen.getByTestId("loading");
+        expect(loadingCicle).toBeInTheDocument();
+    });
 });

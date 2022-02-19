@@ -50,7 +50,7 @@ function App() {
                 }}
             />
             <Box sx={styles.mainContent}>
-                {isLoading && <CircularProgress />}
+                {isLoading && <CircularProgress data-testid="loading" />}
                 {isError && (
                     <Alert severity="error">Server is not available</Alert>
                 )}
