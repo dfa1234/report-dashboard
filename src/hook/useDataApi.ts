@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useDataApi = <T>(from: Date, to: Date) => {
+export const useDataApi = <T>({ from, to }: { from: Date; to: Date }) => {
     const [data, setData] = useState<T>();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);

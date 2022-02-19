@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
-import { startDate, stopDate } from "../config";
-import { DailyReport } from "../DailyReport";
-import { connectMongo } from "../mongo-db";
+import { startDate, stopDate } from "../../config";
+import { DailyReport } from "../../DailyReport";
+import { connectMongo } from "../../mongo-db";
 
 export const handler: Handler = async (event, context) => {
     const {
@@ -27,8 +27,8 @@ export const handler: Handler = async (event, context) => {
         dailyReport.date,
         dailyReport.in,
         dailyReport.out,
-        // We could choose to save some bandwith and do not send the average like this in the payload,
-        // but on the other hand it could also result in some more calculation for the client.
+        // We could choose to save some bandwith and do not send this value like this in the payload,
+        // but on the other hand it could also result in more calculation for the client.
         // It's not a concern for the small amount of data we have here,
         // but it would be an interesting debate if the calculation was intensive, and the data set was huge
         dailyReport.in - dailyReport.out,

@@ -1,14 +1,14 @@
 import { Handler } from "@netlify/functions";
 import { addDays } from "date-fns";
-import { startDate, stopDate } from "../config";
-import { connectMongo } from "../mongo-db";
+import { startDate, stopDate } from "../../config";
+import { connectMongo } from "../../mongo-db";
 
 export const handler: Handler = async (event, context) => {
     const db = await connectMongo();
 
     const dailyReport = db.collection("dailyReport");
 
-    console.log("Format collection");
+    console.log("Erase previous collection");
 
     await dailyReport.deleteMany({});
 

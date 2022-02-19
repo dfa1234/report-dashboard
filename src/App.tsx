@@ -1,53 +1,62 @@
 import { Alert, Box, CircularProgress } from "@mui/material";
-import React, { useState } from "react";
-import { Content } from "./components/Content";
+import React, { useCallback, useState } from "react";
+import { ChartContent } from "./components/ChartContent";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { useDataApi } from "./hook/useDataApi";
 
-function App() {
-    const [from, setFrom] = useState<Date>(new Date("2021-06-01"));
-    const [to, setTo] = useState<Date>(new Date("2021-12-21"));
+const styles = {
+    globalWrapper: {
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+    },
+    mainContent: {
+        display: "flex",
+        minHeight: 400,
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        p: 2,
+    },
+};
 
-    const [data, isLoading, isError] = useDataApi<any[][]>(from, to);
+function App() {
+    const [dates, setDates] = useState<{ from: Date; to: Date }>({
+        from: new Date("2021-06-01"),
+        to: new Date("2021-12-21"),
+    });
+
+    const [data, isLoading, isError] = useDataApi<any[][]>(dates);
+
+    const refreshCallback = useCallback(() => {
+        fetch(`/.netlify/functions/populate-data-api`).then(() =>
+            setDates({
+                from: dates.from,
+                to: dates.to,
+            })
+        );
+    }, []);
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh",
-            }}
-        >
+        <Box sx={styles.globalWrapper}>
             <Header
-                from={from}
-                to={to}
-                onChangeFrom={(d: Date) => setFrom(d)}
-                onChangeTo={(d: Date) => setTo(d)}
-            />
-            <Box
-                sx={{
-                    display: "flex",
-                    minHeight: 400,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    p: 2,
+                interval={{ start: dates.from, end: dates.to }}
+                setInterval={(start, end) => {
+                    setDates({
+                        from: start,
+                        to: end,
+                    });
                 }}
-            >
+            />
+            <Box sx={styles.mainContent}>
                 {isLoading && <CircularProgress />}
                 {isError && (
-                    <Alert severity="error">The server is not available</Alert>
+                    <Alert severity="error">Server is not available</Alert>
                 )}
-                {!isLoading && !!data && <Content data={data} />}
+                {!isLoading && !!data && <ChartContent data={data} />}
             </Box>
-            <Footer
-                onRefresh={() => {
-                    fetch(`/.netlify/functions/populate-data-api`).then(() =>
-                        setFrom((value) => new Date(value))
-                    );
-                }}
-            />
+            <Footer onRefresh={refreshCallback} />
         </Box>
     );
 }

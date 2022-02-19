@@ -5,7 +5,7 @@ const red = "#ff595e";
 const blue = "#1982c4";
 const green = "green";
 
-export const options = {
+const options = {
     chart: {
         title: "Incomes, outcomes, and daily revenues for the grocery shop",
         hAxis: {
@@ -16,7 +16,9 @@ export const options = {
     series: [{ color: red }, { color: blue }, { color: green }],
 };
 
-export const Content: FunctionComponent<{ data: any[][] }> = ({ data }) => {
+export const ChartContent: FunctionComponent<{ data: any[][] }> = ({
+    data,
+}) => {
     return (
         <Chart
             chartType="Line"
