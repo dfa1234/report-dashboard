@@ -27,13 +27,20 @@ Backend:
 
 ## Running the project
 
-If needed netlify cli can be installed globally: `npm install netlify-cli -g`
+This project have been created with node LTS v16.14.0 and npm 8.3.1
 
-For running both client and server:
+With these pre-requish, here are the steps:
 
-`netlify dev`
+1. netlify cli need to be installed globally `npm install netlify-cli -g`
+2. Unzip or clone the project, and run into the project folder `npm i`
+3. A `.env` file need to be added manually at the root of the repository, with this content: `MONGO_DB_PASSWORD=<your mongo db password>`
+4. And now for running both client and server the command is: `netlify dev`
+
+The server should now be available at http://localhost:8888
 
 ## Running the tests
+
+The units test can be run with
 
 `npm test`
 
