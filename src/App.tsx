@@ -31,10 +31,7 @@ function App() {
 
     const refreshCallback = useCallback(() => {
         fetch(`/.netlify/functions/populate-data-api`).then(() =>
-            setDates({
-                from: dates.from,
-                to: dates.to,
-            })
+            setDates((prevState) => ({ ...prevState }))
         );
     }, []);
 
