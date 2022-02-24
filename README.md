@@ -19,7 +19,7 @@ Backend:
 -   _Netlify_ stateless functions with typescript.  
     Currently there is 2 functions:
 
-    -   `./netlify/functions/dashboard-data-api/dashboard-data-api.ts` is the simple GET API, called at evey launch and when we click on "Filter"
+    -   `./netlify/functions/dashboard-data-api/dashboard-data-api.ts` is the simple GET API, called at every launch and when we click on "Filter"
     -   `./netlify/functions/populate-data-api/populate-data-api.ts` erasing and re-generating a new set of random datas, called once and can be called one again by clicking "Generate new datas" in the bottom right corner of the footer
 
 -   _MongoDB_ free tier cluster for storing the set of datas.
